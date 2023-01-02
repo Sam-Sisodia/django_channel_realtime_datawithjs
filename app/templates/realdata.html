@@ -1,0 +1,43 @@
+
+<html>
+    <head> </head>
+
+    <center>
+    <body>
+        <h1> This is Real data incoming  </h1>
+        <h2 id = "realdata"> </h2>
+        
+    
+
+        <script>
+            var ws = new WebSocket('ws://127.0.0.1:8000/test/sync/')
+            ws.onopen = function(){
+                console.log('WebSocket Connection Open -------')
+                ws.send("Hi message From Sajal pls send the bytes")
+            } 
+
+            {% comment %} ws.onmessage = function(event){
+                console.log('Message Recevied from  Sever -----' , event.data)     Simple string 
+                document.getElementById("realdata").innerText = event.data
+            } {% endcomment %}
+
+
+             ws.onmessage = function(event){
+                console.log('Message Recevied from  Sever -----' , event.data)
+                var data =  JSON.parse(event.data)
+                document.getElementById("realdata").innerText = data.count
+            }
+
+            ws.onerror = function(event){
+                console.log("WebSocket Error Occuered ", event) 
+            }
+
+            ws.onclose = function(event){
+                console.log('Websocket Connection closed ---- ')
+            }
+        </script>
+    </body>
+</center>
+
+</html>
+
